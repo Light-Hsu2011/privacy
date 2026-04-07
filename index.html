@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>司法特考 四等書記官 讀書計畫</title>
+<style>
+  :root {
+    --primary: #1e3a5f;
+    --accent: #e8913a;
+    --success: #2d8a4e;
+    --danger: #c0392b;
+    --bg: #f5f1eb;
+    --card: #ffffff;
+    --text: #2c2c2c;
+    --muted: #6b7280;
+    --border: #e5e1db;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding-bottom: 80px;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+    color: white;
+    padding: 28px 20px;
+    text-align: center;
+  }
+  .header h1 { font-size: 1.5rem; margin-bottom: 4px; }
+  .header .subtitle { font-size: 0.9rem; opacity: 0.85; }
+
+  /* Countdown */
+  .countdown {
+    background: var(--accent);
+    color: white;
+    text-align: center;
+    padding: 18px 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .countdown .days { font-size: 2.2rem; font-weight: 800; display: block; line-height: 1.2; }
+
+  /* Container */
+  .container { max-width: 800px; margin: 0 auto; padding: 16px; }
+
+  /* Card */
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+  .card h2 {
+    font-size: 1.15rem;
+    color: var(--primary);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border);
+  }
+  .card h3 {
+    font-size: 1rem;
+    color: var(--primary);
+    margin: 14px 0 8px;
+  }
+
+  /* Today schedule */
+  .today-slot {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: #f8f6f3;
+    border-left: 4px solid var(--primary);
+  }
+  .today-slot.active {
+    background: #eef6ee;
+    border-left-color: var(--success);
+  }
+  .today-slot .time {
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--muted);
+    min-width: 110px;
+  }
+  .today-slot .subject {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  .today-slot .chapter {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-left: 6px;
+  }
+  .rest-day {
+    text-align: center;
+    padding: 20px;
+    color: var(--success);
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  /* Phase badge */
+  .phase-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+  }
+  .phase-badge.p1 { background: var(--primary); }
+  .phase-badge.p2 { background: var(--accent); }
+  .phase-badge.p3 { background: var(--danger); }
+
+  /* Week accordion */
+  .week-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 12px 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    font-family: inherit;
+  }
+  .week-toggle:hover { color: var(--primary); }
+  .week-toggle .arrow { transition: transform 0.2s; font-size: 0.8rem; }
+  .week-toggle.open .arrow { transform: rotate(90deg); }
+  .week-content {
+    display: none;
+    padding: 10px 0;
+  }
+  .week-content.show { display: block; }
+
+  /* Table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 8px 0;
+  }
+  th {
+    background: var(--primary);
+    color: white;
+    padding: 8px 6px;
+    text-align: left;
+    font-size: 0.8rem;
+  }
+  td {
+    padding: 8px 6px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) { background: #faf9f7; }
+
+  /* Method cards */
+  .method {
+    padding: 14px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--accent);
+    background: #fdf8f3;
+  }
+  .method .name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 4px;
+  }
+  .method .star { color: var(--accent); }
+  .method .desc { font-size: 0.85rem; color: var(--muted); }
+  .method .how {
+    font-size: 0.88rem;
+    margin-top: 6px;
+    padding: 8px 10px;
+    background: white;
+    border-radius: 6px;
+  }
+
+  /* Pomodoro flow */
+  .pomo-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0;
+  }
+  .pomo-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+  }
+  .pomo-step.work { background: #eef6ee; border-left: 3px solid var(--success); }
+  .pomo-step.recall { background: #fdf3e6; border-left: 3px solid var(--accent); }
+  .pomo-step.output { background: #eef0f8; border-left: 3px solid var(--primary); }
+  .pomo-step .num {
+    font-weight: 800;
+    font-size: 1.1rem;
+    min-width: 24px;
+    color: var(--primary);
+  }
+  .pomo-step .content { font-size: 0.88rem; }
+  .pomo-step .label { font-weight: 600; }
+  .pomo-break {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--muted);
+    padding: 2px 0;
+  }
+
+  /* Prompt copy */
+  .prompt-box {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    border-radius: 8px;
+    padding: 16px;
+    font-family: "Cascadia Code", "Fira Code", monospace;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    position: relative;
+    white-space: pre-wrap;
+    margin: 10px 0;
+  }
+  .copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-family: inherit;
+  }
+  .copy-btn:hover { opacity: 0.85; }
+  .copy-btn.copied { background: var(--success); }
+
+  /* Google Sheet */
+  .sheet-link {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    background: var(--success);
+    color: white;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    margin: 10px 0;
+  }
+  .sheet-link:hover { opacity: 0.9; }
+
+  /* Missing book alert */
+  .alert {
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 0.88rem;
+  }
+  .alert.warning {
+    background: #fef3cd;
+    border-left: 4px solid var(--accent);
+    color: #856404;
+  }
+  .alert.info {
+    background: #e8f0fe;
+    border-left: 4px solid var(--primary);
+    color: var(--primary);
+  }
+
+  /* Book list */
+  .book {
+    display: flex;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem;
+  }
+  .book:last-child { border-bottom: none; }
+  .book .icon { font-size: 1.2rem; min-width: 28px; text-align: center; }
+  .book .title { font-weight: 600; }
+  .book .author { color: var(--muted); font-size: 0.82rem; }
+
+  /* Bottom nav */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    display: flex;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+  }
+  .bottom-nav a {
+    flex: 1;
+    text-align: center;
+    padding: 10px 4px 8px;
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .bottom-nav a .icon { font-size: 1.3rem; }
+  .bottom-nav a.active { color: var(--primary); font-weight: 700; }
+
+  /* Daily flow */
+  .daily-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .flow-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+  }
+  .flow-item .flow-time {
+    font-weight: 700;
+    min-width: 90px;
+    font-size: 0.82rem;
+    color: var(--primary);
+  }
+  .flow-item.morning { background: #fef9e7; }
+  .flow-item.afternoon { background: #eef6ee; }
+  .flow-item.evening { background: #eef0f8; }
+  .flow-item.break { background: #f5f5f5; color: var(--muted); font-style: italic; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .header h1 { font-size: 1.3rem; }
+    .countdown .days { font-size: 1.8rem; }
+    .today-slot { flex-direction: column; align-items: flex-start; gap: 2px; }
+    .today-slot .time { min-width: auto; }
+    table { font-size: 0.78rem; }
+    th, td { padding: 6px 4px; }
+  }
+
+  /* Section anchor offset */
+  section { scroll-margin-top: 10px; }
+
+  /* Settings modal */
+  .settings-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+  .settings-overlay.show { display: flex; }
+  .settings-modal {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    width: 90%;
+    max-width: 400px;
+  }
+  .settings-modal h2 { border: none; padding: 0; margin-bottom: 16px; }
+  .settings-modal label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--muted);
+  }
+  .settings-modal input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 14px;
+    font-family: inherit;
+  }
+  .settings-modal input:focus { outline: none; border-color: var(--primary); }
+  .settings-modal button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>司法特考 四等書記官</h1>
+  <div class="subtitle">讀書計畫 & 進度管理</div>
+</div>
+
+<!-- Countdown -->
+<div class="countdown" id="countdown">
+  <span class="days" id="countdown-days">--</span>
+  距離考試還有 <span id="countdown-label">-- 天</span>
+</div>
+
+<div class="container">
+
+<!-- Section: Today -->
+<section id="sec-today">
+<div class="card">
+  <h2 id="today-title">今日課表</h2>
+  <div id="today-schedule"></div>
+</div>
+</section>
+
+<!-- Section: Daily Flow -->
+<section id="sec-flow">
+<div class="card">
+  <h2>每日流程</h2>
+  <div class="daily-flow">
+    <div class="flow-item morning"><span class="flow-time">06:00-08:00</span> 早上時段（實體法）</div>
+    <div class="flow-item break"><span class="flow-time">08:00-14:00</span> 工作 / 休息</div>
+    <div class="flow-item afternoon"><span class="flow-time">14:00-16:00</span> 下午時段（程序法）</div>
+    <div class="flow-item break"><span class="flow-time">16:00-22:30</span> 休息 / 生活</div>
+    <div class="flow-item evening"><span class="flow-time">22:30-00:30</span> 晚上時段（共同科目 + 複習）</div>
+  </div>
+
+  <h3>每個 2 小時時段這樣讀</h3>
+  <div class="pomo-flow">
+    <div class="pomo-step work">
+      <span class="num">1</span>
+      <div class="content"><span class="label">番茄鐘 1（25分）</span><br>複習昨天的卡片 3 分鐘 + 讀新進度 22 分鐘</div>
+    </div>
+    <div class="pomo-break">-- 休息 5 分鐘 --</div>
+    <div class="pomo-step work">
+      <span class="num">2</span>
+      <div class="content"><span class="label">番茄鐘 2（25分）</span><br>繼續讀新進度</div>
+    </div>
+    <div class="pomo-break">-- 休息 5 分鐘 --</div>
+    <div class="pomo-step recall">
+      <span class="num">3</span>
+      <div class="content"><span class="label">番茄鐘 3（25分）</span><br>闔上書，在白紙上默寫重點（主動回憶）<br>寫不出來的回去翻書再寫一次</div>
+    </div>
+    <div class="pomo-break">-- 休息 5 分鐘 --</div>
+    <div class="pomo-step output">
+      <span class="num">4</span>
+      <div class="content"><span class="label">番茄鐘 4（25分）</span><br>拍照傳給老公整理筆記 5 分 + 做考古題 20 分</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- Section: Study Methods -->
+<section id="sec-method">
+<div class="card">
+  <h2>科學實證讀書法</h2>
+  <div class="method">
+    <div class="name"><span class="star">&#9733;&#9733;</span> 主動回憶（Active Recall）— 效果最強</div>
+    <div class="desc">Dunlosky (2013) 統合分析：「練習測驗」是效果最高的學習策略</div>
+    <div class="how"><strong>做法：</strong>讀完就闔書，在白紙上默寫構成要件和法律效果。寫不出來 = 還沒真的會，回去重讀那段。</div>
+  </div>
+  <div class="method">
+    <div class="name"><span class="star">&#9733;&#9733;</span> 間隔重複（Spaced Repetition）— 記最久</div>
+    <div class="desc">Ebbinghaus 遺忘曲線：學完 24hr 不複習，遺忘 70%。隔幾天再回頭看一次，記憶會越來越牢。</div>
+    <div class="how">
+      <strong>怎麼做：</strong>用 AnkiWeb（免費網頁版記憶卡片）<br><br>
+      <strong>流程：</strong><br>
+      1. 讀完書 → 把重要的法條/觀念<strong>拍照</strong>傳給老公<br>
+      2. 老公把內容做成 AnkiWeb 卡片（正面：題目，背面：答案）<br>
+      3. 每天晚上打開 AnkiWeb <strong>複習 20 分鐘</strong><br>
+      4. AnkiWeb 會自動決定今天該複習哪些卡片<br><br>
+      <strong>簡單說：</strong>打開 AnkiWeb → 看題目 → 心裡想答案 → 按「顯示答案」→ 對不對？→ 按「記得/忘記」。就這樣！
+    </div>
+  </div>
+  <div class="method">
+    <div class="name">交錯練習（Interleaving）</div>
+    <div class="desc">Rohrer & Taylor (2007)：混合不同主題練習，提升辨別力</div>
+    <div class="how"><strong>做法：</strong>早上民法 + 下午民訴一起讀。實體法和程序法交錯，看到法條在訴訟中如何運用。</div>
+  </div>
+  <div class="method">
+    <div class="name">費曼技巧（Feynman Technique）</div>
+    <div class="desc">用自己的話解釋，講不清楚的就是還沒懂的</div>
+    <div class="how"><strong>做法：</strong>假裝對一個不懂法律的人解釋「什麼是善意取得」。對鏡子講、或錄音聽自己講得順不順。</div>
+  </div>
+  <div class="method">
+    <div class="name">番茄鐘（Pomodoro）</div>
+    <div class="desc">定時專注 + 定時休息，維持注意力品質</div>
+    <div class="how"><strong>做法：</strong>專注 25 分鐘 → 休息 5 分鐘 → 每 4 輪休息 15-30 分鐘。用手機計時器就好。</div>
+  </div>
+</div>
+</section>
+
+<!-- Section: Plan -->
+<section id="sec-plan">
+<div class="card">
+  <h2>4 個月讀書計畫</h2>
+
+  <!-- Phase overview -->
+  <table>
+    <tr><th>階段</th><th>時間</th><th>目標</th><th>讀法</th></tr>
+    <tr>
+      <td><span class="phase-badge p1">打底期</span></td>
+      <td>4-5月<br><span style="font-size:0.75rem;color:var(--muted)">4/8-5/31 (8週)</span></td>
+      <td>民法 + 民訴 讀完一輪</td>
+      <td>理解為主，每章做筆記</td>
+    </tr>
+    <tr>
+      <td><span class="phase-badge p2">加強期</span></td>
+      <td>6月<br><span style="font-size:0.75rem;color:var(--muted)">6/1-6/30 (4週)</span></td>
+      <td>刑法 + 刑訴 一輪 + 民法民訴二輪</td>
+      <td>搭配考古題</td>
+    </tr>
+    <tr>
+      <td><span class="phase-badge p3">衝刺期</span></td>
+      <td>7月<br><span style="font-size:0.75rem;color:var(--muted)">7/1-8/7 (5週)</span></td>
+      <td>全科總複習 + 大量考古題</td>
+      <td>每天寫題、檢討</td>
+    </tr>
+  </table>
+
+  <div style="margin:14px 0 6px;font-size:0.85rem;color:var(--muted);">
+    4-5月：民法+民訴 ｜ 6月：刑法+刑訴 ｜ 7月-考前：全科衝刺<br>
+    每天：早上 實體法 ｜ 下午 程序法 ｜ 晚上 共同科目+複習
+  </div>
+
+  <!-- Phase 1: W1-W10 -->
+  <h3><span class="phase-badge p1">打底期</span> 4-5月（W1-W8）：民法 + 民訴</h3>
+  <div id="weeks-phase1"></div>
+
+  <!-- Phase 2: W9-W12 -->
+  <h3><span class="phase-badge p2">加強期</span> 6月（W9-W12）：刑法 + 刑訴</h3>
+  <div id="weeks-phase2"></div>
+
+  <!-- Phase 3: W13-W17 -->
+  <h3><span class="phase-badge p3">衝刺期</span> 7月-考前（W13-W17）：全科總複習</h3>
+  <div id="weeks-phase3"></div>
+</div>
+</section>
+
+<!-- Section: Prompt -->
+<section id="sec-prompt">
+<div class="card">
+  <h2>Claude.ai 筆記整理 Prompt</h2>
+  <p style="font-size:0.85rem;color:var(--muted);margin-bottom:10px;">讀完書拍照傳給老公後，老公用這段 prompt 到 <strong>claude.ai</strong> 上傳截圖整理筆記：</p>
+  <div class="prompt-box" id="prompt-text">請幫我整理這張照片的法律學習內容：
+
+1. 主題標題
+2. 相關法條（條號 + 簡要內容）
+3. 構成要件或重點（條列式）
+4. 考試常見爭點
+5. 一句話記憶口訣
+
+用繁體中文、簡潔條列。<button class="copy-btn" onclick="copyPrompt()">複製</button></div>
+</div>
+</section>
+
+<!-- Section: Google Sheet -->
+<section id="sec-sheet">
+<div class="card">
+  <h2>Google Sheets 進度表</h2>
+  <p style="font-size:0.85rem;color:var(--muted);margin-bottom:10px;">點擊下方連結打開進度追蹤表，每天讀完記得更新。</p>
+  <a class="sheet-link" id="sheet-link" href="#" target="_blank" onclick="return openSheet()">
+    打開 Google Sheets 進度表
+  </a>
+  <p style="font-size:0.8rem;color:var(--muted);margin-top:8px;text-align:center;">
+    <a href="#" onclick="openSettings(); return false;" style="color:var(--primary);">設定 Google Sheet 連結和考試日期</a>
+  </p>
+</div>
+</section>
+
+<!-- Section: Books -->
+<section id="sec-books">
+<div class="card">
+  <h2>教材清單</h2>
+
+  <div class="alert warning">缺書提醒：刑法概要、國文、法學知識 尚未準備，建議盡快補齊！</div>
+
+  <div class="book">
+    <span class="icon">&#9989;</span>
+    <div>
+      <div class="title">民法 讀解（2024）</div>
+      <div class="author">韓池吉 編著 / 志光出版 / 5編 約40章</div>
+    </div>
+  </div>
+  <div class="book">
+    <span class="icon">&#9989;</span>
+    <div>
+      <div class="title">民事訴訟法（2025）</div>
+      <div class="author">林明勤律師（林翔）/ 保成出版 / 10 講</div>
+    </div>
+  </div>
+  <div class="book">
+    <span class="icon">&#9989;</span>
+    <div>
+      <div class="title">民事訴訟法概要 考古題（2023）</div>
+      <div class="author">李勝 著 / 11 章命題分析</div>
+    </div>
+  </div>
+  <div class="book">
+    <span class="icon">&#9989;</span>
+    <div>
+      <div class="title">刑事訴訟法（含概要）A+B 兩冊（113年版）</div>
+      <div class="author">墨笛 編著 / 17 章</div>
+    </div>
+  </div>
+  <div class="book">
+    <span class="icon">&#9989;</span>
+    <div>
+      <div class="title">刑事訴訟法概要 考古題（2025 二版）</div>
+      <div class="author">莫莉 著 / 6 大 Topic</div>
+    </div>
+  </div>
+  <div class="book">
+    <span class="icon">&#10060;</span>
+    <div>
+      <div class="title" style="color:var(--danger);">刑法概要 — 需要補</div>
+      <div class="author">建議書：志光或保成的四等書記官用書</div>
+    </div>
+  </div>
+  <div class="book">
+    <span class="icon">&#10060;</span>
+    <div>
+      <div class="title" style="color:var(--danger);">國文（作文+公文+測驗）— 需要補</div>
+      <div class="author">可用線上資源或歷屆考古題練習</div>
+    </div>
+  </div>
+  <div class="book">
+    <span class="icon">&#10060;</span>
+    <div>
+      <div class="title" style="color:var(--danger);">法學知識（憲法+法緒+英文）— 需要補</div>
+      <div class="author">可用線上資源或歷屆考古題練習</div>
+    </div>
+  </div>
+</div>
+</section>
+
+</div><!-- /container -->
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <a href="#sec-today" class="active"><span class="icon">&#128197;</span>今日</a>
+  <a href="#sec-flow"><span class="icon">&#9200;</span>流程</a>
+  <a href="#sec-plan"><span class="icon">&#128203;</span>計畫</a>
+  <a href="#sec-prompt"><span class="icon">&#9997;</span>筆記</a>
+  <a href="#sec-sheet"><span class="icon">&#128200;</span>進度</a>
+</nav>
+
+<!-- Settings Modal -->
+<div class="settings-overlay" id="settings-overlay" onclick="if(event.target===this)closeSettings()">
+  <div class="settings-modal">
+    <h2>設定</h2>
+    <label>考試日期</label>
+    <input type="date" id="input-exam-date">
+    <label>Google Sheet 連結</label>
+    <input type="url" id="input-sheet-url" placeholder="https://docs.google.com/spreadsheets/d/...">
+    <label>讀書計畫開始日期</label>
+    <input type="date" id="input-start-date">
+    <button onclick="saveSettings()">儲存</button>
+  </div>
+</div>
+
+<script>
+// ===== Config =====
+const DEFAULT_EXAM_DATE = '2026-08-08';
+const DEFAULT_START_DATE = '2026-04-08';
+
+function getConfig() {
+  const saved = localStorage.getItem('judicialExamConfig');
+  if (saved) return JSON.parse(saved);
+  return { examDate: DEFAULT_EXAM_DATE, sheetUrl: 'https://docs.google.com/spreadsheets/d/1fsWSN3spC-8pyGj5ty7hUf3Sc4haaY8U/edit?usp=sharing&ouid=114319219820658351220&rtpof=true&sd=true', startDate: DEFAULT_START_DATE };
+}
+function saveConfig(cfg) {
+  localStorage.setItem('judicialExamConfig', JSON.stringify(cfg));
+}
+
+// ===== Schedule Data =====
+const weeklyPlan = [
+  // Phase 1 (4-5月): W1-W8 — 民法+民訴（壓縮到 8 週）
+  { w:1,  phase:1, morning:'民法 總則 Ch1-3', morningDetail:'緒論、權利主體(人)、權利客體(物)', afternoon:'民訴 第1-2講', afternoonDetail:'緒論、法院', evening:'AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題' },
+  { w:2,  phase:1, morning:'民法 總則 Ch4-7', morningDetail:'法律行為、期日期間、消滅時效、權利行使', afternoon:'民訴 第3-4講', afternoonDetail:'當事人、複數當事人', evening:'AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題' },
+  { w:3,  phase:1, morning:'民法 債編 Ch1-3', morningDetail:'總論、無因管理、不當得利', afternoon:'民訴 第5講', afternoonDetail:'代理、費用、一事不再理', evening:'AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題' },
+  { w:4,  phase:1, morning:'民法 債編 Ch4-5', morningDetail:'侵權行為、契約總論及各種之債', afternoon:'民訴 第6講', afternoonDetail:'訴訟程序總論（送達、期日、辯論、裁判）', evening:'AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題' },
+  { w:5,  phase:1, morning:'民法 物權 Ch1-4', morningDetail:'通則、所有權、地上權、用益物權', afternoon:'民訴 第7講', afternoonDetail:'第一審程序（起訴、準備、證據、和解）', evening:'AnkiWeb 複習 20 分 + 民法民訴 考古題整回寫' },
+  { w:6,  phase:1, morning:'民法 物權 Ch5-8', morningDetail:'抵押權、質權、留置權、占有', afternoon:'民訴 第8講', afternoonDetail:'救濟程序（上訴審）', evening:'AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題' },
+  { w:7,  phase:1, morning:'民法 親屬 Ch1-12（重點速讀）', morningDetail:'婚姻、父母子女、監護、扶養（出題比重低，抓大放小）', afternoon:'民訴 第9-10講', afternoonDetail:'簡易小額程序 + 家事事件', evening:'AnkiWeb 複習 20 分 + 民法民訴 考古題整回寫' },
+  { w:8,  phase:1, morning:'民法 繼承 Ch1-8 + 不熟章節重讀', morningDetail:'繼承總論、遺囑、遺贈（出題比重低）+ 翻錯題本找不熟的回去看', afternoon:'民訴 全科考古題', afternoonDetail:'李勝考古題本 重點題目', evening:'AnkiWeb 複習 20 分 + 錯題本：錯過的題目重做一遍' },
+  // Phase 2 (6月): W9-W12 — 刑法+刑訴
+  { w:9,  phase:2, morning:'刑法 刑總(一)', morningDetail:'構成要件、違法性', afternoon:'刑訴 A冊 Ch1-2', afternoonDetail:'緒論、訴訟主體', evening:'AnkiWeb 複習民法+民訴卡片 20 分 + 刑法寫 2 題考古題' },
+  { w:10, phase:2, morning:'刑法 刑總(二)', morningDetail:'罪責、未遂、共犯', afternoon:'刑訴 A冊 Ch3-4', afternoonDetail:'訴訟行為、訴訟客體', evening:'AnkiWeb 複習民法+民訴卡片 20 分 + 刑法寫 2 題考古題' },
+  { w:11, phase:2, morning:'刑法 刑分(一)', morningDetail:'生命身體、財產犯罪', afternoon:'刑訴 A冊 Ch5-6', afternoonDetail:'強制處分、證據法則', evening:'AnkiWeb 複習全部卡片 20 分 + 刑法刑訴寫 2 題考古題' },
+  { w:12, phase:2, morning:'刑法 刑分(二)', morningDetail:'其他各罪 + 刑法考古題', afternoon:'刑訴 B冊 Ch7-12', afternoonDetail:'偵查→公訴→審判→上訴', evening:'AnkiWeb 複習全部卡片 20 分 + 錯題本：錯過的重做一遍' },
+  // Phase 3 (7月-考前): W13-W17 — 全科衝刺（5週含緩衝）
+  { w:13, phase:3, morning:'民法+刑法 考古題', morningDetail:'整回寫，計時練習', afternoon:'民訴+刑訴 考古題', afternoonDetail:'整回寫，計時練習', evening:'AnkiWeb 20 分 + 國文作文 + 法學知識刷題' },
+  { w:14, phase:3, morning:'翻錯題本，錯過的題目重做', morningDetail:'民法/刑法 做錯的題目重新寫一遍，寫完對答案', afternoon:'翻錯題本，錯過的題目重做', afternoonDetail:'民訴/刑訴 做錯的題目重新寫一遍，寫完對答案', evening:'AnkiWeb 20 分 + 法學知識 憲法+法緒 刷題' },
+  { w:15, phase:3, morning:'模擬考(一) 實體法', morningDetail:'仿照考試時間和題型', afternoon:'模擬考(一) 程序法', afternoonDetail:'仿照考試時間和題型', evening:'AnkiWeb 20 分 + 檢討模擬考錯的題目' },
+  { w:16, phase:3, morning:'模擬考(二) + 全科複習', morningDetail:'第二次模擬 + 快速翻閱筆記', afternoon:'模擬考(二) + 全科複習', afternoonDetail:'第二次模擬 + 考古題精選', evening:'AnkiWeb 20 分 + 國文 + 法學知識 最後衝刺' },
+  { w:17, phase:3, morning:'考前最後一週', morningDetail:'只看自己的筆記和錯題本，不讀新東西', afternoon:'考前最後一週', afternoonDetail:'快速翻法條、看記憶口訣', evening:'AnkiWeb 最後一輪 + 放鬆心情，早點睡' },
+];
+
+// ===== Render countdown =====
+function renderCountdown() {
+  const cfg = getConfig();
+  const exam = new Date(cfg.examDate + 'T00:00:00');
+  const now = new Date();
+  now.setHours(0,0,0,0);
+  const diff = Math.ceil((exam - now) / (1000*60*60*24));
+  document.getElementById('countdown-days').textContent = diff;
+  document.getElementById('countdown-label').textContent = diff + ' 天';
+}
+
+// ===== Render today's schedule =====
+function renderToday() {
+  const cfg = getConfig();
+  const start = new Date(cfg.startDate + 'T00:00:00');
+  const now = new Date();
+  now.setHours(0,0,0,0);
+  const daysDiff = Math.floor((now - start) / (1000*60*60*24));
+  const weekNum = Math.floor(daysDiff / 7) + 1;
+  const dayOfWeek = now.getDay(); // 0=Sun
+
+  const dateStr = now.toLocaleDateString('zh-TW', { month:'long', day:'numeric', weekday:'long' });
+  document.getElementById('today-title').textContent = '今日課表 — ' + dateStr;
+
+  const container = document.getElementById('today-schedule');
+
+  // Sunday = rest day
+  if (dayOfWeek === 0) {
+    container.innerHTML = '<div class="rest-day">今天是週日 — 彈性休息或補進度</div>';
+    return;
+  }
+
+  // Saturday = review day
+  if (dayOfWeek === 6) {
+    container.innerHTML =
+      '<div class="today-slot"><span class="time">06:00-08:00</span><span class="subject">本週複習</span><span class="chapter">回顧本週讀過的章節</span></div>' +
+      '<div class="today-slot"><span class="time">14:00-16:00</span><span class="subject">考古題練習</span><span class="chapter">寫歷屆試題並檢討</span></div>' +
+      '<div class="today-slot"><span class="time">22:30-00:30</span><span class="subject">間隔複習</span><span class="chapter">複習卡片 + 錯題本</span></div>';
+    return;
+  }
+
+  // Find current week's plan
+  const week = weeklyPlan.find(w => w.w === weekNum);
+  if (!week) {
+    if (weekNum < 1) {
+      container.innerHTML = '<div class="rest-day">還沒到開始日期，先把書準備好！</div>';
+    } else {
+      container.innerHTML = '<div class="rest-day">計畫已結束 — 考試加油！</div>';
+    }
+    return;
+  }
+
+  const nowHour = new Date().getHours();
+  const morningActive = nowHour >= 6 && nowHour < 8;
+  const afternoonActive = nowHour >= 14 && nowHour < 16;
+  const eveningActive = nowHour >= 22 || nowHour < 1;
+
+  container.innerHTML =
+    `<div class="today-slot ${morningActive ? 'active' : ''}">
+      <span class="time">06:00-08:00</span>
+      <span class="subject">${week.morning}</span>
+      <span class="chapter">${week.morningDetail}</span>
+    </div>
+    <div class="today-slot ${afternoonActive ? 'active' : ''}">
+      <span class="time">14:00-16:00</span>
+      <span class="subject">${week.afternoon}</span>
+      <span class="chapter">${week.afternoonDetail}</span>
+    </div>
+    <div class="today-slot ${eveningActive ? 'active' : ''}">
+      <span class="time">22:30-00:30</span>
+      <span class="subject">${week.evening}</span>
+      <span class="chapter"></span>
+    </div>`;
+
+  // Show phase and week info
+  const phaseNames = { 1: '打底期', 2: '加強期', 3: '衝刺期' };
+  const phaseClass = { 1: 'p1', 2: 'p2', 3: 'p3' };
+  const badge = `<span class="phase-badge ${phaseClass[week.phase]}">${phaseNames[week.phase]}</span> 第 ${week.w} 週`;
+  container.insertAdjacentHTML('afterbegin', `<div style="margin-bottom:10px">${badge}</div>`);
+}
+
+// ===== Render weekly plan accordion =====
+function renderWeeks() {
+  const phases = {1: 'weeks-phase1', 2: 'weeks-phase2', 3: 'weeks-phase3'};
+
+  for (const [phase, containerId] of Object.entries(phases)) {
+    const container = document.getElementById(containerId);
+    const weeks = weeklyPlan.filter(w => w.phase === parseInt(phase));
+    let html = '';
+
+    weeks.forEach(week => {
+      html += `
+        <button class="week-toggle" onclick="toggleWeek(this)">
+          <span>第 ${week.w} 週</span>
+          <span class="arrow">&#9654;</span>
+        </button>
+        <div class="week-content">
+          <table>
+            <tr><th>時段</th><th>科目</th><th>內容</th></tr>
+            <tr><td>早上 06-08</td><td>${week.morning}</td><td>${week.morningDetail}</td></tr>
+            <tr><td>下午 14-16</td><td>${week.afternoon}</td><td>${week.afternoonDetail}</td></tr>
+            <tr><td>晚上 22:30</td><td colspan="2">${week.evening}</td></tr>
+          </table>
+        </div>`;
+    });
+
+    container.innerHTML = html;
+  }
+}
+
+function toggleWeek(btn) {
+  btn.classList.toggle('open');
+  const content = btn.nextElementSibling;
+  content.classList.toggle('show');
+}
+
+// ===== Copy prompt =====
+function copyPrompt() {
+  const text = document.getElementById('prompt-text').innerText.replace('複製','').trim();
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '已複製！';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '複製'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ===== Google Sheet =====
+function openSheet() {
+  const cfg = getConfig();
+  if (!cfg.sheetUrl) {
+    openSettings();
+    return false;
+  }
+  window.open(cfg.sheetUrl, '_blank');
+  return false;
+}
+
+// ===== Settings =====
+function openSettings() {
+  const cfg = getConfig();
+  document.getElementById('input-exam-date').value = cfg.examDate;
+  document.getElementById('input-sheet-url').value = cfg.sheetUrl || '';
+  document.getElementById('input-start-date').value = cfg.startDate;
+  document.getElementById('settings-overlay').classList.add('show');
+}
+function closeSettings() {
+  document.getElementById('settings-overlay').classList.remove('show');
+}
+function saveSettings() {
+  const cfg = {
+    examDate: document.getElementById('input-exam-date').value || DEFAULT_EXAM_DATE,
+    sheetUrl: document.getElementById('input-sheet-url').value || '',
+    startDate: document.getElementById('input-start-date').value || DEFAULT_START_DATE,
+  };
+  saveConfig(cfg);
+  closeSettings();
+  renderCountdown();
+  renderToday();
+}
+
+// ===== Bottom nav active state =====
+document.querySelectorAll('.bottom-nav a').forEach(a => {
+  a.addEventListener('click', () => {
+    document.querySelectorAll('.bottom-nav a').forEach(x => x.classList.remove('active'));
+    a.classList.add('active');
+  });
+});
+
+// ===== Init =====
+renderCountdown();
+renderToday();
+renderWeeks();
+</script>
+</body>
+</html>
