@@ -364,6 +364,50 @@
   /* Section anchor offset */
   section { scroll-margin-top: 10px; }
 
+  /* Rewards */
+  .reward-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+    background: #f8f6f3;
+    border-left: 4px solid var(--border);
+    transition: all 0.3s;
+  }
+  .reward-item.unlocked {
+    background: #eef6ee;
+    border-left-color: var(--success);
+  }
+  .reward-item .reward-icon { font-size: 1.5rem; min-width: 36px; text-align: center; }
+  .reward-item .reward-info { flex: 1; }
+  .reward-item .reward-milestone { font-weight: 700; font-size: 0.92rem; }
+  .reward-item .reward-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 2px;
+    cursor: pointer;
+    min-height: 20px;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  .reward-item .reward-desc:hover { background: #eee; }
+  .reward-item .reward-desc:empty::before {
+    content: '點這裡填寫獎勵內容...';
+    color: #ccc;
+    font-style: italic;
+  }
+  .reward-item .reward-status {
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .reward-item .reward-status.locked { background: #e5e1db; color: var(--muted); }
+  .reward-item .reward-status.unlocked { background: var(--success); color: white; }
+
   /* Settings modal */
   .settings-overlay {
     display: none;
@@ -512,6 +556,36 @@
     <div class="desc">定時專注 + 定時休息，維持注意力品質</div>
     <div class="how"><strong>做法：</strong>專注 25 分鐘 → 休息 5 分鐘 → 每 4 輪休息 15-30 分鐘。用手機計時器就好。</div>
   </div>
+  <div class="method">
+    <div class="name"><span class="star">&#9733;</span> Cornell 筆記法 — 法律科目最適合的筆記格式</div>
+    <div class="desc">把一張紙分成三區，讀完之後才寫左欄，強迫自己回想重點</div>
+    <div class="how">
+      <strong>一張紙這樣分：</strong><br><br>
+      <div style="border:2px solid var(--primary);border-radius:8px;overflow:hidden;font-size:0.82rem;margin:4px 0;">
+        <div style="display:flex;border-bottom:2px solid var(--primary);">
+          <div style="width:35%;padding:10px;border-right:2px solid var(--primary);background:#f0f4f8;">
+            <strong>左欄（讀完才寫）</strong><br><br>
+            &#8226; 法條編號<br>
+            &#8226; 關鍵字<br>
+            &#8226; 自問自答的問題<br><br>
+            <span style="color:var(--accent);font-weight:600;">例：「§184 三款差在哪？」</span>
+          </div>
+          <div style="width:65%;padding:10px;">
+            <strong>右欄（邊讀邊寫）</strong><br><br>
+            &#8226; 用自己的話寫重點<br>
+            &#8226; 不要抄書，要翻譯成白話文<br>
+            &#8226; 畫表格比較要件<br><br>
+            <span style="color:var(--muted);">前段：過失害權利 → 要賠<br>後段：故意背風俗 → 要賠<br>二項：違反法律 → 推定過失</span>
+          </div>
+        </div>
+        <div style="padding:10px;background:#fdf8f3;">
+          <strong>底部摘要（整頁讀完寫一句話）</strong><br>
+          <span style="color:var(--accent);">「§184 三款的差異在：保護客體不同（權利vs利益）、主觀要件不同（過失vs故意）、舉證責任不同」</span><br>
+          <span style="font-size:0.78rem;color:var(--muted);">→ 這句話就是 AnkiWeb 卡片的素材</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 </section>
 
@@ -567,15 +641,31 @@
 <div class="card">
   <h2>Claude.ai 筆記整理 Prompt</h2>
   <p style="font-size:0.85rem;color:var(--muted);margin-bottom:10px;">讀完書拍照傳給老公後，老公用這段 prompt 到 <strong>claude.ai</strong> 上傳截圖整理筆記：</p>
-  <div class="prompt-box" id="prompt-text">請幫我整理這張照片的法律學習內容：
+  <div class="prompt-box" id="prompt-text">請用以下格式整理這張照片的法律內容：
 
-1. 主題標題
-2. 相關法條（條號 + 簡要內容）
-3. 構成要件或重點（條列式）
-4. 考試常見爭點
-5. 一句話記憶口訣
+## [法條/主題名稱]
 
-用繁體中文、簡潔條列。<button class="copy-btn" onclick="copyPrompt()">複製</button></div>
+### 要件表格
+| 要件 | 白話翻譯 | 考試常考什麼 |
+（把構成要件拆成表格，每個要件一行）
+
+### 跟哪些法條容易搞混
+（列出容易混淆的類似法條，用一句話說明差異）
+
+### 記憶法（選一個最適合的方式）
+從以下方法中選最適合這個主題的：
+- 圖像聯想：把抽象概念變成一個具體畫面
+- 故事串聯：把要件編成一個小故事
+- 比較口訣：「A是...B是...」對比記憶
+- 數字歸納：「3個要件」「2種例外」幫助記數量
+不要硬押韻，好記最重要。
+
+### AnkiWeb 卡片
+產生 3-5 張卡片，格式：
+Q: 問題
+A: 答案
+
+用繁體中文。<button class="copy-btn" onclick="copyPrompt()">複製</button></div>
 </div>
 </section>
 
@@ -590,6 +680,15 @@
   <p style="font-size:0.8rem;color:var(--muted);margin-top:8px;text-align:center;">
     <a href="#" onclick="openSettings(); return false;" style="color:var(--primary);">設定 Google Sheet 連結和考試日期</a>
   </p>
+</div>
+</section>
+
+<!-- Section: Rewards -->
+<section id="sec-rewards">
+<div class="card">
+  <h2>階段獎勵</h2>
+  <p style="font-size:0.85rem;color:var(--muted);margin-bottom:12px;">每完成一個里程碑就獎勵自己！保持動力很重要。</p>
+  <div id="rewards-list"></div>
 </div>
 </section>
 
@@ -891,10 +990,65 @@ document.querySelectorAll('.bottom-nav a').forEach(a => {
   });
 });
 
+// ===== Rewards =====
+const defaultRewards = [
+  { milestone: 'W2 完成：民法總則讀完', icon: '&#127775;', desc: '' },
+  { milestone: 'W4 完成：民法債編讀完', icon: '&#127775;', desc: '' },
+  { milestone: 'W6 完成：民法物權讀完', icon: '&#11088;', desc: '' },
+  { milestone: 'W8 完成：民法+民訴 全部一輪讀完！', icon: '&#127942;', desc: '' },
+  { milestone: 'W10 完成：刑法總則讀完', icon: '&#127775;', desc: '' },
+  { milestone: 'W12 完成：刑法+刑訴 全部一輪讀完！', icon: '&#127942;', desc: '' },
+  { milestone: 'W14 完成：錯題全部重做一遍', icon: '&#11088;', desc: '' },
+  { milestone: 'W16 完成：兩次模擬考都考完', icon: '&#127942;', desc: '' },
+  { milestone: 'W17 考前最後一週：你已經準備好了！', icon: '&#127881;', desc: '' },
+];
+
+function getRewards() {
+  const saved = localStorage.getItem('judicialExamRewards');
+  if (saved) return JSON.parse(saved);
+  return defaultRewards;
+}
+function saveRewards(rewards) {
+  localStorage.setItem('judicialExamRewards', JSON.stringify(rewards));
+}
+
+function renderRewards() {
+  const rewards = getRewards();
+  const cfg = getConfig();
+  const start = new Date(cfg.startDate + 'T00:00:00');
+  const now = new Date();
+  now.setHours(0,0,0,0);
+  const currentWeek = Math.floor((now - start) / (1000*60*60*24*7)) + 1;
+
+  const container = document.getElementById('rewards-list');
+  container.innerHTML = rewards.map((r, i) => {
+    const weekMatch = r.milestone.match(/W(\d+)/);
+    const targetWeek = weekMatch ? parseInt(weekMatch[1]) : 99;
+    const unlocked = currentWeek > targetWeek;
+    return `
+      <div class="reward-item ${unlocked ? 'unlocked' : ''}">
+        <span class="reward-icon">${r.icon}</span>
+        <div class="reward-info">
+          <div class="reward-milestone">${r.milestone}</div>
+          <div class="reward-desc" contenteditable="true" data-idx="${i}"
+               onblur="updateRewardDesc(${i}, this.textContent)">${r.desc}</div>
+        </div>
+        <span class="reward-status ${unlocked ? 'unlocked' : 'locked'}">${unlocked ? '已達成!' : '努力中'}</span>
+      </div>`;
+  }).join('');
+}
+
+function updateRewardDesc(idx, text) {
+  const rewards = getRewards();
+  rewards[idx].desc = text.trim();
+  saveRewards(rewards);
+}
+
 // ===== Init =====
 renderCountdown();
 renderToday();
 renderWeeks();
+renderRewards();
 </script>
 </body>
 </html>
