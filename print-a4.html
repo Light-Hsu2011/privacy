@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>司法特考 四等書記官 讀書計畫（列印版）</title>
+<style>
+  /* ===== A4 Page Setup ===== */
+  @page {
+    size: A4;
+    margin: 15mm 12mm;
+  }
+
+  /* ===== Base Styles ===== */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #000;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  h1 { font-size: 22pt; margin-bottom: 6pt; }
+  h2 { font-size: 14pt; margin: 12pt 0 6pt; padding-bottom: 4pt; border-bottom: 2pt solid #333; }
+  h3 { font-size: 11pt; margin: 10pt 0 4pt; }
+
+  p, li { orphans: 2; widows: 2; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 9pt; margin: 6pt 0; }
+  th, td { padding: 4pt 6pt; border: 1px solid #999; vertical-align: top; text-align: left; }
+  th { font-weight: 700; }
+  tr { page-break-inside: avoid; }
+
+  /* Page break utilities */
+  .page-break { page-break-before: always; }
+  .no-break { page-break-inside: avoid; }
+  .page-break-after { page-break-after: always; }
+
+  /* Phase badges */
+  .phase-badge {
+    display: inline-block;
+    padding: 1pt 8pt;
+    border-radius: 10pt;
+    font-size: 8pt;
+    font-weight: 700;
+  }
+
+  /* Method cards */
+  .method-card {
+    padding: 8pt;
+    margin-bottom: 8pt;
+    page-break-inside: avoid;
+  }
+  .method-card .name { font-weight: 700; font-size: 10pt; margin-bottom: 2pt; }
+  .method-card .desc { font-size: 8.5pt; color: #555; margin-bottom: 4pt; }
+  .method-card .how { font-size: 9pt; padding: 6pt 8pt; border-radius: 4pt; }
+
+  /* Cornell template */
+  .cornell-box { border: 2pt solid #000; page-break-inside: avoid; }
+  .cornell-top { display: flex; border-bottom: 2pt solid #000; min-height: 180mm; }
+  .cornell-left { width: 35%; padding: 10pt; border-right: 2pt solid #000; }
+  .cornell-right { width: 65%; padding: 10pt; }
+  .cornell-bottom { padding: 10pt; min-height: 30mm; }
+
+  /* Prompt box */
+  .prompt-box {
+    font-family: "Cascadia Code", "Consolas", monospace;
+    font-size: 8.5pt;
+    line-height: 1.6;
+    padding: 10pt;
+    border: 1.5pt solid #333;
+    border-radius: 4pt;
+    white-space: pre-wrap;
+    margin: 6pt 0;
+    page-break-inside: avoid;
+  }
+
+  /* Book list */
+  .book-item { padding: 4pt 0; border-bottom: 1px solid #ddd; font-size: 9pt; display: flex; gap: 8pt; }
+  .book-item:last-child { border-bottom: none; }
+  .book-icon { min-width: 20pt; text-align: center; font-size: 11pt; }
+
+  /* Reward table */
+  .reward-row { page-break-inside: avoid; }
+
+  /* Daily flow */
+  .flow-table td:first-child { font-weight: 700; white-space: nowrap; width: 100pt; }
+
+  /* Week block for daily tracker */
+  .week-block { margin-bottom: 8pt; page-break-inside: avoid; }
+  .week-block h3 { margin: 6pt 0 2pt; font-size: 10pt; }
+  .week-subjects { font-size: 8.5pt; padding: 4pt 8pt; margin-bottom: 3pt; border-left: 3pt solid #333; background: #f8f8f8; line-height: 1.6; }
+  .week-block table { margin: 0 0 2pt; }
+  .sat-row td { font-style: italic; }
+  .sun-row td { color: #999; font-style: italic; }
+  body.style-color .week-subjects { border-left-color: #1e3a5f; background: #f0f4f8; }
+  body.style-color .sat-row td { background: #fef9e7; }
+  body.style-color .sun-row td { background: #eef6ee; }
+  body.style-minimal .week-block { margin-bottom: 4pt; }
+  body.style-minimal .week-block h3 { font-size: 8pt; margin: 4pt 0 1pt; }
+  body.style-minimal .week-subjects { font-size: 7pt; padding: 2pt 4pt; margin-bottom: 1pt; line-height: 1.4; }
+
+  /* Checkbox style */
+  .cb { display: inline-block; width: 11pt; height: 11pt; border: 1.5pt solid #000; margin-right: 4pt; vertical-align: middle; text-align: center; font-size: 8pt; line-height: 11pt; }
+  .cb.checked::after { content: "✓"; }
+
+  /* Cover page */
+  .cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 250mm;
+    text-align: center;
+  }
+  .cover h1 { font-size: 28pt; margin-bottom: 12pt; }
+  .cover .subtitle { font-size: 16pt; margin-bottom: 30pt; color: #333; }
+  .cover .exam-date { font-size: 14pt; margin-bottom: 8pt; }
+  .cover .info { font-size: 10pt; color: #666; margin-top: 20pt; line-height: 2; }
+
+  /* Alert box */
+  .alert { padding: 6pt 10pt; border-radius: 4pt; font-size: 9pt; margin-bottom: 8pt; border-left: 4pt solid #e8913a; background: #fef3cd; }
+
+  /* ===== No-print toolbar ===== */
+  .no-print {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #fff;
+    padding: 14px 20px;
+    border-bottom: 3px solid #1e3a5f;
+    text-align: center;
+    font-family: sans-serif;
+  }
+  .no-print h3 { font-size: 16px; margin-bottom: 8px; color: #1e3a5f; }
+  .no-print p { font-size: 13px; color: #555; margin-bottom: 8px; }
+  .no-print .btn-group { display: flex; gap: 8px; justify-content: center; margin: 12px 0; }
+  .no-print button {
+    padding: 10px 24px;
+    border: 2px solid #1e3a5f;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    background: #fff;
+    color: #1e3a5f;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .no-print button:hover { background: #f0f4f8; }
+  .no-print button.active { background: #1e3a5f; color: #fff; }
+  .no-print .steps { text-align: left; max-width: 500px; margin: 10px auto 0; font-size: 12px; color: #666; line-height: 1.8; }
+  .no-print .steps ol { padding-left: 20px; }
+
+  @media print {
+    .no-print { display: none !important; }
+  }
+
+  /* ===== Style: BW (default) ===== */
+  body.style-bw th { background: #000; color: #fff; }
+  body.style-bw .phase-badge { border: 1.5pt solid #000; color: #000; background: none; }
+  body.style-bw .method-card { border: 1pt solid #000; }
+  body.style-bw .method-card .how { background: #f5f5f5; }
+  body.style-bw .cover { border-bottom: 3pt solid #000; }
+  body.style-bw .prompt-box { background: #fff; }
+  body.style-bw .alert { background: #f5f5f5; border-left-color: #000; }
+
+  /* ===== Style: Color ===== */
+  body.style-color th { background: #1e3a5f; color: #fff; }
+  body.style-color .phase-badge.p1 { background: #1e3a5f; color: #fff; border: none; }
+  body.style-color .phase-badge.p2 { background: #e8913a; color: #fff; border: none; }
+  body.style-color .phase-badge.p3 { background: #c0392b; color: #fff; border: none; }
+  body.style-color h2 { color: #1e3a5f; border-bottom-color: #1e3a5f; }
+  body.style-color .method-card { border-left: 4pt solid #e8913a; background: #fdf8f3; border-top: none; border-right: none; border-bottom: none; }
+  body.style-color .method-card .how { background: #fff; }
+  body.style-color .method-card .star { color: #e8913a; }
+  body.style-color .morning-row { background: #eef0f8; }
+  body.style-color .afternoon-row { background: #fef9e7; }
+  body.style-color .evening-row { background: #eef6ee; }
+  body.style-color .cover { border-bottom: 3pt solid #1e3a5f; }
+  body.style-color .cover h1 { color: #1e3a5f; }
+  body.style-color .prompt-box { background: #f8f8f8; border-color: #1e3a5f; }
+  body.style-color .cornell-left { background: #f0f4f8; }
+  body.style-color .cornell-bottom { background: #fdf8f3; }
+  body.style-color .flow-morning { background: #fef9e7; }
+  body.style-color .flow-afternoon { background: #eef6ee; }
+  body.style-color .flow-evening { background: #eef0f8; }
+
+  /* ===== Style: Minimal ===== */
+  body.style-minimal { font-size: 8pt; line-height: 1.3; }
+  body.style-minimal h1 { font-size: 16pt; }
+  body.style-minimal h2 { font-size: 11pt; margin: 6pt 0 3pt; padding-bottom: 2pt; }
+  body.style-minimal h3 { font-size: 9pt; margin: 4pt 0 2pt; }
+  body.style-minimal table { font-size: 7.5pt; }
+  body.style-minimal th, body.style-minimal td { padding: 2pt 3pt; }
+  body.style-minimal th { background: #000; color: #fff; }
+  body.style-minimal .phase-badge { font-size: 7pt; padding: 0pt 5pt; border: 1pt solid #000; background: none; color: #000; }
+  body.style-minimal .method-card { padding: 4pt; margin-bottom: 4pt; border: 1pt solid #000; }
+  body.style-minimal .method-card .name { font-size: 8pt; }
+  body.style-minimal .method-card .desc { font-size: 7pt; }
+  body.style-minimal .method-card .how { font-size: 7.5pt; padding: 3pt 5pt; background: #f5f5f5; }
+  body.style-minimal .cover { min-height: 120mm; }
+  body.style-minimal .cover h1 { font-size: 20pt; }
+  body.style-minimal .cover .subtitle { font-size: 12pt; margin-bottom: 16pt; }
+  body.style-minimal .cornell-top { min-height: 140mm; }
+  body.style-minimal .cornell-bottom { min-height: 20mm; }
+  body.style-minimal .prompt-box { font-size: 7pt; padding: 6pt; }
+  body.style-minimal .book-item { font-size: 7.5pt; padding: 2pt 0; }
+  body.style-minimal .alert { font-size: 7.5pt; padding: 3pt 6pt; }
+  body.style-minimal .flow-table td { padding: 2pt 3pt; }
+
+  /* Screen preview helpers */
+  @media screen {
+    .print-content {
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 10mm;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  }
+</style>
+</head>
+<body class="style-bw">
+
+<!-- ===== Toolbar (screen only) ===== -->
+<div class="no-print">
+  <h3>司法特考讀書計畫 — 列印版</h3>
+  <p>選擇風格後，按 Ctrl+P（Mac: Cmd+P）儲存為 PDF，即可上傳 7-11 ibon 列印</p>
+  <div class="btn-group">
+    <button id="btn-bw" class="active" onclick="setStyle('bw')">簡潔黑白</button>
+    <button id="btn-color" onclick="setStyle('color')">彩色標記</button>
+    <button id="btn-minimal" onclick="setStyle('minimal')">極簡表格</button>
+  </div>
+  <div class="steps">
+    <ol>
+      <li>用 <strong>Chrome</strong> 開啟此檔案</li>
+      <li>點上方按鈕選擇風格</li>
+      <li>按 <strong>Ctrl+P</strong>，目的地選「另存為 PDF」</li>
+      <li>紙張大小：<strong>A4</strong></li>
+      <li>如選「彩色標記」→ 更多設定 → 勾選「背景圖形」</li>
+      <li>取消勾選「頁首及頁尾」</li>
+      <li>儲存 PDF → 上傳 <strong>ibon 雲端列印</strong> 或 USB 帶去 7-11</li>
+    </ol>
+  </div>
+</div>
+
+<div class="print-content">
+
+<!-- ===== 1. Cover ===== -->
+<div class="cover">
+  <h1>司法特考 四等書記官</h1>
+  <div class="subtitle">讀書計畫 &amp; 進度管理</div>
+  <div class="exam-date">考試日期：2026 年 8 月 8 日</div>
+  <div class="exam-date">準備期間：2026/04/08 — 2026/08/07（17 週）</div>
+  <div class="info">
+    每日三時段：早上實體法 ／ 下午程序法 ／ 晚上共同科目<br>
+    週六：複習＋考古題 ／ 週日：彈性休息<br>
+    科學讀書法：主動回憶 + 間隔重複 + 番茄鐘
+  </div>
+</div>
+
+<!-- ===== 2. Phase Overview + Daily Flow ===== -->
+<div class="page-break">
+  <h2>三階段總覽</h2>
+  <table>
+    <tr><th style="width:15%">階段</th><th style="width:20%">時間</th><th style="width:35%">目標</th><th style="width:30%">讀法</th></tr>
+    <tr>
+      <td><span class="phase-badge p1">打底期</span></td>
+      <td>4-5月<br><small>4/8-5/31（8週）</small></td>
+      <td>民法 + 民訴 讀完一輪</td>
+      <td>理解為主，每章做筆記</td>
+    </tr>
+    <tr>
+      <td><span class="phase-badge p2">加強期</span></td>
+      <td>6月<br><small>6/1-6/30（4週）</small></td>
+      <td>刑法 + 刑訴 一輪 + 民法民訴二輪</td>
+      <td>搭配考古題</td>
+    </tr>
+    <tr>
+      <td><span class="phase-badge p3">衝刺期</span></td>
+      <td>7月-考前<br><small>7/1-8/7（5週）</small></td>
+      <td>全科總複習 + 大量考古題</td>
+      <td>每天寫題、檢討</td>
+    </tr>
+  </table>
+
+  <h2>每日時間安排</h2>
+  <table class="flow-table">
+    <tr><th style="width:20%">時段</th><th style="width:35%">科目</th><th style="width:45%">說明</th></tr>
+    <tr class="flow-morning"><td>06:00 — 08:00</td><td>早上時段（實體法）</td><td>民法 或 刑法</td></tr>
+    <tr><td>08:00 — 14:00</td><td colspan="2" style="color:#888;font-style:italic">工作 / 休息</td></tr>
+    <tr class="flow-afternoon"><td>14:00 — 16:00</td><td>下午時段（程序法）</td><td>民訴 或 刑訴</td></tr>
+    <tr><td>16:00 — 22:30</td><td colspan="2" style="color:#888;font-style:italic">休息 / 生活</td></tr>
+    <tr class="flow-evening"><td>22:30 — 00:30</td><td>晚上時段</td><td>共同科目 + AnkiWeb 複習 + 考古題</td></tr>
+  </table>
+
+  <h2>每個 2 小時時段這樣讀（番茄鐘法）</h2>
+  <table>
+    <tr><th style="width:8%">#</th><th style="width:18%">時間</th><th style="width:15%">類型</th><th>內容</th></tr>
+    <tr><td><strong>1</strong></td><td>25 分鐘</td><td>專注</td><td>複習昨天的卡片 3 分鐘 + 讀新進度 22 分鐘</td></tr>
+    <tr><td></td><td colspan="3" style="color:#888;text-align:center;font-style:italic">— 休息 5 分鐘 —</td></tr>
+    <tr><td><strong>2</strong></td><td>25 分鐘</td><td>專注</td><td>繼續讀新進度</td></tr>
+    <tr><td></td><td colspan="3" style="color:#888;text-align:center;font-style:italic">— 休息 5 分鐘 —</td></tr>
+    <tr><td><strong>3</strong></td><td>25 分鐘</td><td>主動回憶</td><td>闔上書，在白紙上默寫重點。寫不出來的回去翻書再寫一次</td></tr>
+    <tr><td></td><td colspan="3" style="color:#888;text-align:center;font-style:italic">— 休息 5 分鐘 —</td></tr>
+    <tr><td><strong>4</strong></td><td>25 分鐘</td><td>輸出</td><td>拍照傳給老公整理筆記 5 分 + 做考古題 20 分</td></tr>
+  </table>
+</div>
+
+<!-- ===== 4. Weekly Schedule: Phase 1 (W1-W8) ===== -->
+<div class="page-break">
+  <h2><span class="phase-badge p1">打底期</span> W1-W8：民法 + 民訴</h2>
+
+  <table>
+    <tr><th style="width:8%">週次</th><th style="width:12%">時段</th><th style="width:30%">科目</th><th>內容</th></tr>
+    <tr class="morning-row"><td rowspan="3"><strong>W1</strong></td><td>早 06-08</td><td>民法 總則 Ch1-3</td><td>緒論、權利主體(人)、權利客體(物)</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>民訴 第1-2講</td><td>緒論、法院</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W2</strong></td><td>早 06-08</td><td>民法 總則 Ch4-7</td><td>法律行為、期日期間、消滅時效、權利行使</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>民訴 第3-4講</td><td>當事人、複數當事人</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W3</strong></td><td>早 06-08</td><td>民法 債編 Ch1-3</td><td>總論、無因管理、不當得利</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>民訴 第5講</td><td>代理、費用、一事不再理</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W4</strong></td><td>早 06-08</td><td>民法 債編 Ch4-5</td><td>侵權行為、契約總論及各種之債</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>民訴 第6講</td><td>訴訟程序總論（送達、期日、辯論、裁判）</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W5</strong></td><td>早 06-08</td><td>民法 物權 Ch1-4</td><td>通則、所有權、地上權、用益物權</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>民訴 第7講</td><td>第一審程序（起訴、準備、證據、和解）</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習 20 分 + 民法民訴 考古題整回寫</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W6</strong></td><td>早 06-08</td><td>民法 物權 Ch5-8</td><td>抵押權、質權、留置權、占有</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>民訴 第8講</td><td>救濟程序（上訴審）</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W7</strong></td><td>早 06-08</td><td>民法 親屬 Ch1-12</td><td>重點速讀：婚姻、父母子女、監護、扶養（出題比重低，抓大放小）</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>民訴 第9-10講</td><td>簡易小額程序 + 家事事件</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習 20 分 + 民法民訴 考古題整回寫</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W8</strong></td><td>早 06-08</td><td>民法 繼承 Ch1-8 + 重讀</td><td>繼承總論、遺囑、遺贈 + 翻錯題本找不熟的回去看</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>民訴 全科考古題</td><td>李勝考古題本 重點題目</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習 20 分 + 錯題本：錯過的題目重做一遍</td></tr>
+  </table>
+</div>
+
+<!-- ===== 5. Weekly Schedule: Phase 2 (W9-W12) ===== -->
+<div class="page-break">
+  <h2><span class="phase-badge p2">加強期</span> W9-W12：刑法 + 刑訴</h2>
+
+  <table>
+    <tr><th style="width:8%">週次</th><th style="width:12%">時段</th><th style="width:30%">科目</th><th>內容</th></tr>
+    <tr class="morning-row"><td rowspan="3"><strong>W9</strong></td><td>早 06-08</td><td>刑法 刑總(一)</td><td>構成要件、違法性</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>刑訴 A冊 Ch1-2</td><td>緒論、訴訟主體</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習民法+民訴卡片 20 分 + 刑法寫 2 題考古題</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W10</strong></td><td>早 06-08</td><td>刑法 刑總(二)</td><td>罪責、未遂、共犯</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>刑訴 A冊 Ch3-4</td><td>訴訟行為、訴訟客體</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習民法+民訴卡片 20 分 + 刑法寫 2 題考古題</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W11</strong></td><td>早 06-08</td><td>刑法 刑分(一)</td><td>生命身體、財產犯罪</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>刑訴 A冊 Ch5-6</td><td>強制處分、證據法則</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習全部卡片 20 分 + 刑法刑訴寫 2 題考古題</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W12</strong></td><td>早 06-08</td><td>刑法 刑分(二)</td><td>其他各罪 + 刑法考古題</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>刑訴 B冊 Ch7-12</td><td>偵查 → 公訴 → 審判 → 上訴</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 複習全部卡片 20 分 + 錯題本：錯過的重做一遍</td></tr>
+  </table>
+</div>
+
+<!-- ===== 6. Weekly Schedule: Phase 3 (W13-W17) ===== -->
+<div class="page-break">
+  <h2><span class="phase-badge p3">衝刺期</span> W13-W17：全科總複習</h2>
+
+  <table>
+    <tr><th style="width:8%">週次</th><th style="width:12%">時段</th><th style="width:30%">科目</th><th>內容</th></tr>
+    <tr class="morning-row"><td rowspan="3"><strong>W13</strong></td><td>早 06-08</td><td>民法+刑法 考古題</td><td>整回寫，計時練習</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>民訴+刑訴 考古題</td><td>整回寫，計時練習</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 20 分 + 國文作文 + 法學知識刷題</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W14</strong></td><td>早 06-08</td><td>翻錯題本，重做</td><td>民法/刑法 做錯的題目重新寫一遍，寫完對答案</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>翻錯題本，重做</td><td>民訴/刑訴 做錯的題目重新寫一遍，寫完對答案</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 20 分 + 法學知識 憲法+法緒 刷題</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W15</strong></td><td>早 06-08</td><td>模擬考(一) 實體法</td><td>仿照考試時間和題型</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>模擬考(一) 程序法</td><td>仿照考試時間和題型</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 20 分 + 檢討模擬考錯的題目</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W16</strong></td><td>早 06-08</td><td>模擬考(二) + 全科複習</td><td>第二次模擬 + 快速翻閱筆記</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>模擬考(二) + 全科複習</td><td>第二次模擬 + 考古題精選</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 20 分 + 國文 + 法學知識 最後衝刺</td></tr>
+
+    <tr class="morning-row"><td rowspan="3"><strong>W17</strong></td><td>早 06-08</td><td>考前最後一週</td><td>只看自己的筆記和錯題本，不讀新東西</td></tr>
+    <tr class="afternoon-row"><td>午 14-16</td><td>考前最後一週</td><td>快速翻法條、看記憶口訣</td></tr>
+    <tr class="evening-row"><td>晚 22:30</td><td colspan="2">AnkiWeb 最後一輪 + 放鬆心情，早點睡</td></tr>
+  </table>
+</div>
+
+<!-- ===== 7. Study Methods ===== -->
+<div class="page-break">
+  <h2>科學實證讀書法</h2>
+
+  <div class="method-card">
+    <div class="name"><span class="star">&#9733;&#9733;</span> 主動回憶（Active Recall）— 效果最強</div>
+    <div class="desc">Dunlosky (2013) 統合分析：「練習測驗」是效果最高的學習策略</div>
+    <div class="how"><strong>做法：</strong>讀完就闔書，在白紙上默寫構成要件和法律效果。寫不出來 = 還沒真的會，回去重讀那段。</div>
+  </div>
+
+  <div class="method-card">
+    <div class="name"><span class="star">&#9733;&#9733;</span> 間隔重複（Spaced Repetition）— 記最久</div>
+    <div class="desc">Ebbinghaus 遺忘曲線：學完 24hr 不複習，遺忘 70%。隔幾天再回頭看一次，記憶會越來越牢。</div>
+    <div class="how">
+      <strong>怎麼做：</strong>用 AnkiWeb（免費網頁版記憶卡片）<br>
+      <strong>流程：</strong>讀完書 → 把重要的法條/觀念拍照傳給老公 → 老公做成 AnkiWeb 卡片 → 每天晚上複習 20 分鐘<br>
+      <strong>簡單說：</strong>打開 AnkiWeb → 看題目 → 心裡想答案 → 按「顯示答案」→ 對不對？→ 按「記得/忘記」
+    </div>
+  </div>
+
+  <div class="method-card">
+    <div class="name">交錯練習（Interleaving）</div>
+    <div class="desc">Rohrer &amp; Taylor (2007)：混合不同主題練習，提升辨別力</div>
+    <div class="how"><strong>做法：</strong>早上民法 + 下午民訴一起讀。實體法和程序法交錯，看到法條在訴訟中如何運用。</div>
+  </div>
+
+  <div class="method-card">
+    <div class="name">費曼技巧（Feynman Technique）</div>
+    <div class="desc">用自己的話解釋，講不清楚的就是還沒懂的</div>
+    <div class="how"><strong>做法：</strong>假裝對一個不懂法律的人解釋「什麼是善意取得」。對鏡子講、或錄音聽自己講得順不順。</div>
+  </div>
+
+  <div class="method-card">
+    <div class="name">番茄鐘（Pomodoro）</div>
+    <div class="desc">定時專注 + 定時休息，維持注意力品質</div>
+    <div class="how"><strong>做法：</strong>專注 25 分鐘 → 休息 5 分鐘 → 每 4 輪休息 15-30 分鐘。用手機計時器就好。</div>
+  </div>
+
+  <div class="method-card">
+    <div class="name"><span class="star">&#9733;</span> Cornell 筆記法 — 法律科目最適合的筆記格式</div>
+    <div class="desc">把一張紙分成三區，讀完之後才寫左欄，強迫自己回想重點</div>
+    <div class="how">
+      <strong>一張紙這樣分：</strong><br>
+      左欄（35%，讀完才寫）：法條編號、關鍵字、自問自答的問題<br>
+      右欄（65%，邊讀邊寫）：用自己的話寫重點、畫表格比較要件<br>
+      底部摘要（整頁讀完寫一句話）：這句話就是 AnkiWeb 卡片的素材
+    </div>
+  </div>
+</div>
+
+<!-- ===== 8. Cornell Note Template (full page) ===== -->
+<div class="page-break">
+  <h2>Cornell 筆記模板（可影印重複使用）</h2>
+  <p style="font-size:9pt;color:#666;margin-bottom:8pt;">日期：＿＿＿＿ 科目：＿＿＿＿＿ 章節：＿＿＿＿＿＿＿＿</p>
+
+  <div class="cornell-box">
+    <div class="cornell-top">
+      <div class="cornell-left">
+        <div style="font-weight:700;margin-bottom:8pt;font-size:10pt;">關鍵字 / 問題</div>
+        <div style="font-size:8pt;color:#888;">（讀完才寫）</div>
+        <div style="font-size:8pt;color:#888;margin-top:6pt;">
+          &bull; 法條編號<br>
+          &bull; 關鍵字<br>
+          &bull; 自問自答的問題<br><br>
+          例：「§184 三款差在哪？」
+        </div>
+      </div>
+      <div class="cornell-right">
+        <div style="font-weight:700;margin-bottom:8pt;font-size:10pt;">筆記內容</div>
+        <div style="font-size:8pt;color:#888;">（邊讀邊寫，用自己的話）</div>
+      </div>
+    </div>
+    <div class="cornell-bottom">
+      <div style="font-weight:700;margin-bottom:4pt;font-size:10pt;">摘要（整頁讀完寫一句話 → AnkiWeb 卡片素材）</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 9. Claude.ai Prompt ===== -->
+<div class="page-break">
+  <h2>Claude.ai 筆記整理 Prompt</h2>
+  <p style="font-size:9pt;color:#666;margin-bottom:8pt;">讀完書拍照傳給老公後，老公用這段 prompt 到 claude.ai 上傳截圖整理筆記：</p>
+
+  <div class="prompt-box">請用以下格式整理這張照片的法律內容：
+
+## [法條/主題名稱]
+
+### 要件表格
+| 要件 | 白話翻譯 | 考試常考什麼 |
+（把構成要件拆成表格，每個要件一行）
+
+### 跟哪些法條容易搞混
+（列出容易混淆的類似法條，用一句話說明差異）
+
+### 記憶法（選一個最適合的方式）
+從以下方法中選最適合這個主題的：
+- 圖像聯想：把抽象概念變成一個具體畫面
+- 故事串聯：把要件編成一個小故事
+- 比較口訣：「A是...B是...」對比記憶
+- 數字歸納：「3個要件」「2種例外」幫助記數量
+不要硬押韻，好記最重要。
+
+### AnkiWeb 卡片
+產生 3-5 張卡片，格式：
+Q: 問題
+A: 答案
+
+用繁體中文。</div>
+</div>
+
+<!-- ===== 10. Materials Checklist ===== -->
+<div class="page-break">
+  <h2>教材清單</h2>
+
+  <div class="alert">缺書提醒：刑法概要、國文、法學知識 尚未準備，建議盡快補齊！</div>
+
+  <table>
+    <tr><th style="width:5%"></th><th style="width:45%">書名</th><th>作者 / 出版 / 備註</th></tr>
+    <tr><td><span class="cb checked"></span></td><td>民法 讀解（2024）</td><td>韓池吉 編著 / 志光出版 / 5編 約40章</td></tr>
+    <tr><td><span class="cb checked"></span></td><td>民事訴訟法（2025）</td><td>林明勤律師（林翔）/ 保成出版 / 10 講</td></tr>
+    <tr><td><span class="cb checked"></span></td><td>民事訴訟法概要 考古題（2023）</td><td>李勝 著 / 11 章命題分析</td></tr>
+    <tr><td><span class="cb checked"></span></td><td>刑事訴訟法（含概要）A+B 兩冊（113年版）</td><td>墨笛 編著 / 17 章</td></tr>
+    <tr><td><span class="cb checked"></span></td><td>刑事訴訟法概要 考古題（2025 二版）</td><td>莫莉 著 / 6 大 Topic</td></tr>
+    <tr style="color:#c0392b;"><td><span class="cb"></span></td><td><strong>刑法概要 — 需要補</strong></td><td>建議書：志光或保成的四等書記官用書</td></tr>
+    <tr style="color:#c0392b;"><td><span class="cb"></span></td><td><strong>國文（作文+公文+測驗）— 需要補</strong></td><td>可用線上資源或歷屆考古題練習</td></tr>
+    <tr style="color:#c0392b;"><td><span class="cb"></span></td><td><strong>法學知識（憲法+法緒+英文）— 需要補</strong></td><td>可用線上資源或歷屆考古題練習</td></tr>
+  </table>
+
+  <!-- ===== 11. Milestone Rewards ===== -->
+  <h2 style="margin-top:20pt;">階段獎勵里程碑</h2>
+  <p style="font-size:9pt;color:#666;margin-bottom:8pt;">每完成一個里程碑就獎勵自己！在「獎勵內容」欄手寫想要的獎勵。</p>
+
+  <table>
+    <tr><th style="width:5%"></th><th style="width:50%">里程碑</th><th>獎勵內容（自己填）</th></tr>
+    <tr><td><span class="cb"></span></td><td>W2 完成：民法總則讀完</td><td></td></tr>
+    <tr><td><span class="cb"></span></td><td>W4 完成：民法債編讀完</td><td></td></tr>
+    <tr><td><span class="cb"></span></td><td>W6 完成：民法物權讀完</td><td></td></tr>
+    <tr><td><span class="cb"></span></td><td>W8 完成：民法+民訴 全部一輪讀完！</td><td></td></tr>
+    <tr><td><span class="cb"></span></td><td>W10 完成：刑法總則讀完</td><td></td></tr>
+    <tr><td><span class="cb"></span></td><td>W12 完成：刑法+刑訴 全部一輪讀完！</td><td></td></tr>
+    <tr><td><span class="cb"></span></td><td>W14 完成：錯題全部重做一遍</td><td></td></tr>
+    <tr><td><span class="cb"></span></td><td>W16 完成：兩次模擬考都考完</td><td></td></tr>
+    <tr><td><span class="cb"></span></td><td>W17 考前最後一週：你已經準備好了！</td><td></td></tr>
+  </table>
+</div>
+
+<!-- ===== 12. Daily Progress Tracker ===== -->
+<div class="page-break">
+  <h2><span class="phase-badge p1">打底期</span> 每日進度追蹤：W1 — W4</h2>
+  <p style="font-size:9pt;color:#666;margin-bottom:6pt;">每天讀完在對應欄位打勾。週六複習＋考古題，週日彈性休息。</p>
+
+  <div class="week-block">
+    <h3>W1（4/8 — 4/14）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>民法 總則 Ch1-3 — 緒論、權利主體(人)、權利客體(物)<br>
+      <strong>午 14-16：</strong>民訴 第1-2講 — 緒論、法院<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>4/8</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>4/9</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>4/10</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>4/11</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>4/12</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>4/13</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>4/14</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W2（4/15 — 4/21）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>民法 總則 Ch4-7 — 法律行為、期日期間、消滅時效、權利行使<br>
+      <strong>午 14-16：</strong>民訴 第3-4講 — 當事人、複數當事人<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>4/15</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>4/16</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>4/17</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>4/18</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>4/19</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>4/20</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>4/21</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W3（4/22 — 4/28）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>民法 債編 Ch1-3 — 總論、無因管理、不當得利<br>
+      <strong>午 14-16：</strong>民訴 第5講 — 代理、費用、一事不再理<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>4/22</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>4/23</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>4/24</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>4/25</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>4/26</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>4/27</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>4/28</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W4（4/29 — 5/5）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>民法 債編 Ch4-5 — 侵權行為、契約總論及各種之債<br>
+      <strong>午 14-16：</strong>民訴 第6講 — 訴訟程序總論（送達、期日、辯論、裁判）<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>4/29</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>4/30</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/1</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>5/2</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>5/3</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>5/4</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/5</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Phase 1 continued: W5-W8 -->
+<div class="page-break">
+  <h2><span class="phase-badge p1">打底期</span> 每日進度追蹤：W5 — W8</h2>
+
+  <div class="week-block">
+    <h3>W5（5/6 — 5/12）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>民法 物權 Ch1-4 — 通則、所有權、地上權、用益物權<br>
+      <strong>午 14-16：</strong>民訴 第7講 — 第一審程序（起訴、準備、證據、和解）<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習 20 分 + 民法民訴 考古題整回寫
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>5/6</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/7</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/8</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>5/9</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>5/10</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>5/11</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/12</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W6（5/13 — 5/19）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>民法 物權 Ch5-8 — 抵押權、質權、留置權、占有<br>
+      <strong>午 14-16：</strong>民訴 第8講 — 救濟程序（上訴審）<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習 20 分 + 今天讀的寫 2 題考古題
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>5/13</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/14</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/15</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>5/16</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>5/17</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>5/18</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/19</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W7（5/20 — 5/26）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>民法 親屬 Ch1-12（重點速讀）— 婚姻、父母子女、監護、扶養<br>
+      <strong>午 14-16：</strong>民訴 第9-10講 — 簡易小額程序 + 家事事件<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習 20 分 + 民法民訴 考古題整回寫
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>5/20</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/21</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/22</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>5/23</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>5/24</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>5/25</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/26</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W8（5/27 — 6/2）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>民法 繼承 Ch1-8 + 不熟章節重讀 — 繼承總論、遺囑、遺贈 + 翻錯題本<br>
+      <strong>午 14-16：</strong>民訴 全科考古題 — 李勝考古題本 重點題目<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習 20 分 + 錯題本：錯過的題目重做一遍
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>5/27</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/28</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>5/29</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>5/30</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>5/31</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>6/1</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/2</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Phase 2: W9-W12 -->
+<div class="page-break">
+  <h2><span class="phase-badge p2">加強期</span> 每日進度追蹤：W9 — W12</h2>
+
+  <div class="week-block">
+    <h3>W9（6/3 — 6/9）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>刑法 刑總(一) — 構成要件、違法性<br>
+      <strong>午 14-16：</strong>刑訴 A冊 Ch1-2 — 緒論、訴訟主體<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習民法+民訴卡片 20 分 + 刑法寫 2 題考古題
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>6/3</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/4</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/5</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>6/6</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>6/7</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>6/8</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/9</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W10（6/10 — 6/16）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>刑法 刑總(二) — 罪責、未遂、共犯<br>
+      <strong>午 14-16：</strong>刑訴 A冊 Ch3-4 — 訴訟行為、訴訟客體<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習民法+民訴卡片 20 分 + 刑法寫 2 題考古題
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>6/10</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/11</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/12</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>6/13</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>6/14</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>6/15</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/16</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W11（6/17 — 6/23）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>刑法 刑分(一) — 生命身體、財產犯罪<br>
+      <strong>午 14-16：</strong>刑訴 A冊 Ch5-6 — 強制處分、證據法則<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習全部卡片 20 分 + 刑法刑訴寫 2 題考古題
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>6/17</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/18</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/19</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>6/20</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>6/21</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>6/22</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/23</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W12（6/24 — 6/30）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>刑法 刑分(二) — 其他各罪 + 刑法考古題<br>
+      <strong>午 14-16：</strong>刑訴 B冊 Ch7-12 — 偵查 → 公訴 → 審判 → 上訴<br>
+      <strong>晚 22:30：</strong>AnkiWeb 複習全部卡片 20 分 + 錯題本：錯過的重做一遍
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>6/24</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/25</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/26</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>6/27</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>6/28</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>6/29</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>6/30</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Phase 3: W13-W17 -->
+<div class="page-break">
+  <h2><span class="phase-badge p3">衝刺期</span> 每日進度追蹤：W13 — W15</h2>
+
+  <div class="week-block">
+    <h3>W13（7/1 — 7/7）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>民法+刑法 考古題 — 整回寫，計時練習<br>
+      <strong>午 14-16：</strong>民訴+刑訴 考古題 — 整回寫，計時練習<br>
+      <strong>晚 22:30：</strong>AnkiWeb 20 分 + 國文作文 + 法學知識刷題
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>7/1</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/2</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/3</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>7/4</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>7/5</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>7/6</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/7</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W14（7/8 — 7/14）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>翻錯題本，錯過的題目重做 — 民法/刑法 做錯的重新寫一遍<br>
+      <strong>午 14-16：</strong>翻錯題本，錯過的題目重做 — 民訴/刑訴 做錯的重新寫一遍<br>
+      <strong>晚 22:30：</strong>AnkiWeb 20 分 + 法學知識 憲法+法緒 刷題
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>7/8</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/9</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/10</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>7/11</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>7/12</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>7/13</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/14</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W15（7/15 — 7/21）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>模擬考(一) 實體法 — 仿照考試時間和題型<br>
+      <strong>午 14-16：</strong>模擬考(一) 程序法 — 仿照考試時間和題型<br>
+      <strong>晚 22:30：</strong>AnkiWeb 20 分 + 檢討模擬考錯的題目
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>7/15</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/16</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/17</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>7/18</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>7/19</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>7/20</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/21</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Phase 3 continued: W16-W17 + Buffer -->
+<div class="page-break">
+  <h2><span class="phase-badge p3">衝刺期</span> 每日進度追蹤：W16 — W17 + 考前緩衝</h2>
+
+  <div class="week-block">
+    <h3>W16（7/22 — 7/28）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>模擬考(二) + 全科複習 — 第二次模擬 + 快速翻閱筆記<br>
+      <strong>午 14-16：</strong>模擬考(二) + 全科複習 — 第二次模擬 + 考古題精選<br>
+      <strong>晚 22:30：</strong>AnkiWeb 20 分 + 國文 + 法學知識 最後衝刺
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>7/22</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/23</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/24</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>7/25</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>複習 + 考古題</td></tr>
+      <tr class="sun-row"><td>7/26</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>7/27</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/28</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>W17（7/29 — 8/4）</h3>
+    <div class="week-subjects">
+      <strong>早 06-08：</strong>考前最後一週 — 只看自己的筆記和錯題本，不讀新東西<br>
+      <strong>午 14-16：</strong>考前最後一週 — 快速翻法條、看記憶口訣<br>
+      <strong>晚 22:30：</strong>AnkiWeb 最後一輪 + 放鬆心情，早點睡
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>7/29</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/30</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>7/31</td><td>五</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr class="sat-row"><td>8/1</td><td>六</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>最後複習</td></tr>
+      <tr class="sun-row"><td>8/2</td><td>日</td><td colspan="4" style="text-align:center">彈性休息或補進度</td></tr>
+      <tr><td>8/3</td><td>一</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+      <tr><td>8/4</td><td>二</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td></td></tr>
+    </table>
+  </div>
+
+  <div class="week-block">
+    <h3>考前緩衝（8/5 — 8/7）</h3>
+    <div class="week-subjects">
+      輕鬆複習筆記和口訣，不要讀新東西。早睡、調整作息、準備文具和證件。
+    </div>
+    <table>
+      <tr><th style="width:10%">日期</th><th style="width:6%">星</th><th style="width:8%">早 ✓</th><th style="width:8%">午 ✓</th><th style="width:8%">晚 ✓</th><th>備註</th></tr>
+      <tr><td>8/5</td><td>三</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>翻筆記、看口訣</td></tr>
+      <tr><td>8/6</td><td>四</td><td><span class="cb"></span></td><td><span class="cb"></span></td><td><span class="cb"></span></td><td>準備文具證件</td></tr>
+      <tr><td>8/7</td><td>五</td><td colspan="3" style="text-align:center">考前最後一天，放鬆休息</td><td>早點睡！</td></tr>
+      <tr style="background:#fef3cd;font-weight:700;text-align:center;"><td>8/8</td><td>六</td><td colspan="4">考試日 — 加油！你準備好了！</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ===== 13. Error Log ===== -->
+<div class="page-break">
+  <h2>錯題本</h2>
+  <p style="font-size:9pt;color:#666;margin-bottom:8pt;">每次做錯的題目記錄在這裡，定期回來重做。可影印多份使用。</p>
+
+  <table>
+    <tr>
+      <th style="width:10%">日期</th>
+      <th style="width:10%">科目</th>
+      <th style="width:20%">題目來源 / 法條</th>
+      <th style="width:12%">我的答案</th>
+      <th style="width:12%">正確答案</th>
+      <th style="width:26%">錯誤原因</th>
+      <th style="width:10%">重做 ✓</th>
+    </tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+    <tr><td style="height:22pt"></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+  </table>
+</div>
+
+</div><!-- /print-content -->
+
+<script>
+function setStyle(variant) {
+  document.body.className = 'style-' + variant;
+  document.querySelectorAll('.no-print button').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('btn-' + variant).classList.add('active');
+}
+</script>
+</body>
+</html>
